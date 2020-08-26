@@ -96,7 +96,9 @@ class SiteController extends Controller
             return $this->redirect(Yii::$app ->homeUrl);
         }
 
-        return $this->render('signup');
+        return $this->render('signup',[
+            'model' => $model
+        ]);
     }
 
     /**
