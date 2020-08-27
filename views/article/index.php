@@ -14,10 +14,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
+    <?php if(!Yii::$app->user->isGuest) : ?>
     <p>
         <?= Html::a('Create Article', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-
+    <?php endif; ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= \yii\widgets\ListView::widget([
