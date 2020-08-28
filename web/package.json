@@ -4,11 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-webpack": "webpack js/index.js dist/bundle.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "webpack": "^4.44.1"
+  },
+  "dependencies": {
+    "tiny-slider": "^2.9.3"
   }
 }

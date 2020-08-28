@@ -4,12 +4,12 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Article;
+use app\models\Angebot;
 
 /**
- * ArticleSearch represents the model behind the search form of `app\models\Article`.
+ * AngebotSearch represents the model behind the search form of `app\models\Angebot`.
  */
-class ArticleSearch extends Article
+class AngebotSearch extends Angebot
 {
     /**
      * {@inheritdoc}
@@ -17,8 +17,8 @@ class ArticleSearch extends Article
     public function rules()
     {
         return [
-            [['id', 'created_at', 'updated_at', 'created_by'], 'integer'],
-            [['title', 'slug', 'body'], 'safe'],
+            [['id', 'filiale_id'], 'integer'],
+            [['name', 'visual', 'kalender_woche', 'detail_link'], 'safe'],
         ];
     }
 
@@ -40,7 +40,7 @@ class ArticleSearch extends Article
      */
     public function search($params)
     {
-        $query = Article::find()->orderBy('created_at DESC');
+        $query = Angebot::find();
 
         // add conditions that should always apply here
 
@@ -59,14 +59,13 @@ class ArticleSearch extends Article
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'created_by' => $this->created_by,
+            'filiale_id' => $this->filiale_id,
         ]);
 
-        $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'slug', $this->slug])
-            ->andFilterWhere(['like', 'body', $this->body]);
+        $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'visual', $this->visual])
+            ->andFilterWhere(['like', 'kalender_woche', $this->kalender_woche])
+            ->andFilterWhere(['like', 'detail_link', $this->detail_link]);
 
         return $dataProvider;
     }
