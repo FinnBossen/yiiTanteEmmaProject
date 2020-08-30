@@ -1,19 +1,29 @@
 <?php
 
-namespace app\models;
+namespace app\controllers;
 
+use app\services\RandomLinkService;
 use Yii;
 use app\models\Angebot;
 use app\models\AngebotSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * AngebotController implements the CRUD actions for Angebot model.
  */
 class AngebotController extends Controller
 {
+    private $randomLinkService;
+
+    public function __construct($id, $module, $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $this->randomLinkService = new RandomLinkService();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -21,7 +31,7 @@ class AngebotController extends Controller
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],
@@ -66,7 +76,17 @@ class AngebotController extends Controller
     {
         $model = new Angebot();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+        if($model->load(Yii::$app->request->post())){
+
+            $model->file = UploadedFile::getInstance($model, 'file');
+            $fileDirectory = 'angebotVisuals/'. $model->name . '_' . $model->file->baseName . '.' . $model->file->extension;
+            $model->file->saveAs($fileDirectory);
+            $model->visual = $fileDirectory;
+            if(empty($model->detail_link)){
+                $model->detail_link = $this->randomLinkService->randomUselessWebsite();
+            }
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         }
 

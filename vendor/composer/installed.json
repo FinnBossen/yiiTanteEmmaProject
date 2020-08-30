@@ -112,7 +112,7 @@
         "version_normalized": "3.5.1.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/jquery/jquery-dist.git",
+            "url": "git@github.com:jquery/jquery-dist.git",
             "reference": "4c0e4becb8263bb5b3e6dadc448d8e7305ef8215"
         },
         "dist": {
@@ -1300,6 +1300,50 @@
             "polyfill",
             "pseudorandom",
             "random"
+        ]
+    },
+    {
+        "name": "perminder-klair/yii2-dropzone",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/perminder-klair/yii2-dropzone.git",
+            "reference": "41e8145d940cc9955011138a9f16ad80e9831423"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/perminder-klair/yii2-dropzone/zipball/41e8145d940cc9955011138a9f16ad80e9831423",
+            "reference": "41e8145d940cc9955011138a9f16ad80e9831423",
+            "shasum": ""
+        },
+        "require": {
+            "yiisoft/yii2": "2.0.*"
+        },
+        "time": "2015-11-09T11:28:44+00:00",
+        "type": "yii2-extension",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "kato\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Parminder Klair",
+                "email": "perminder.klair@gmail.com"
+            }
+        ],
+        "description": "DropzoneJs Extention for Yii2",
+        "keywords": [
+            "dropzone",
+            "extension",
+            "upload",
+            "yii2"
         ]
     },
     {

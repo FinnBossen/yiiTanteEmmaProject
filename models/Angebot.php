@@ -21,6 +21,8 @@ class Angebot extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+    public $file;
+
     public static function tableName()
     {
         return 'angebot';
@@ -32,9 +34,10 @@ class Angebot extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'visual', 'kalender_woche', 'detail_link', 'filiale_id'], 'required'],
+            [['name', 'visual', 'kalender_woche', 'filiale_id','file'], 'required'],
             [['filiale_id'], 'integer'],
             [['name'], 'string', 'max' => 55],
+            [['file'],'file'],
             [['visual', 'kalender_woche', 'detail_link'], 'string', 'max' => 255],
             [['filiale_id'], 'exist', 'skipOnError' => true, 'targetClass' => Filiale::class, 'targetAttribute' => ['filiale_id' => 'id']],
         ];

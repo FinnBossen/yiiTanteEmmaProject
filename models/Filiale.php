@@ -48,11 +48,11 @@ class Filiale extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Angebote]].
+     * Gets query for [[Angebots]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getAngebote()
+    public function getAngebots()
     {
         return $this->hasMany(Angebot::class, ['filiale_id' => 'id']);
     }
