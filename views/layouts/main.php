@@ -9,7 +9,8 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
-
+use \app\services\LocationService;
+$locationService = new LocationService();
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
@@ -39,8 +40,18 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Home', 'url' => [Yii::$app->homeUrl]],
+            (
+                '<li>'
+                . Html::beginForm($locationService->randomLocation(), 'post')
+                . Html::submitButton(
+                    'RandomLocation',
+                    ['class' => 'btn btn-link logout']
+                )
+                . Html::endForm()
+                . '</li>'
+            ),
             ['label' => 'Werbemittel', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
+            ['label' => 'Angebote', 'url' => ['/angebot']],
             Yii::$app->user->isGuest? '':(['label' => 'Angebote', 'url' => ['/angebot']]),
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
@@ -53,7 +64,8 @@ AppAsset::register($this);
                 )
                 . Html::endForm()
                 . '</li>'
-            ),
+            )
+             ,
              Yii::$app->user->isGuest ? (
                 ['label' => 'Signup', 'url' => ['/site/signup']]
             ) : ''
@@ -61,7 +73,6 @@ AppAsset::register($this);
     ]);
     NavBar::end();
     ?>
-
     <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],

@@ -2,12 +2,12 @@
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
-
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'defaultRoute' => 'article/index',
+    'name' => 'Tante Emma Werbemittel Admin',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
@@ -59,6 +59,67 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'login' => 'site/login',
+                'flensburg' => '',
+
+                'schleswig' => '',
+
+                'eckernförde'=> '',
+
+                'niebüll' => '',
+
+                'sylt' => '',
+
+                'wyk' => '',
+
+                'husum' => '',
+
+                'rendsburg' => '',
+
+                'neumünster' => '',
+
+                'itzehoe' => '',
+
+                'glücksstadt' => '',
+
+                'wilster' => '',
+
+                'eutin' => '',
+
+                'badoldesloe' => '',
+
+                'elmshorn' => '',
+
+                'barmstedt' => '',
+
+                'pinneberg' => '',
+
+                'quickborn' => '',
+
+                'schenefeld' => '',
+
+                'wedel' => '',
+
+                'lübz' => '',
+
+                'parchim' => '',
+
+                'güstrow' => '',
+
+                'gadebusch' => '',
+
+                'hagenow' => '',
+
+                'ludwigslust' => '',
+
+                'perlenberg' => '',
+
+                'sternberg' => '',
+
+                'schwerin' => '',
+
+                'rostock' => '',
+                'signup' => 'site/signup',
                 'article/<action:(index|update|create|delete)>' => 'article/<action>',
                 'article/<slug>' => 'article/view'
             ],
