@@ -15,6 +15,7 @@ class CalenderService extends Component
     function checkIfWednesday(){
         return date('W') == 3;
     }
+    // maybe check if monday or tuesday, when yes its still the calender week before because of the wednesday change logic
     function getCurrentCalenderWeek(){
         return date('W');
     }

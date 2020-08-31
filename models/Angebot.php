@@ -33,10 +33,10 @@ class Angebot extends \yii\db\ActiveRecord
      */
     public function rules()
     {
-        // kalender_woche and detail_link not required here because when user leaves it open, it will be replaced
+        // kalender_woche ,detail_link, file not required here because when user leaves it open, it will be replaced
         // with automatic values in the controller
         return [
-            [['name', 'visual', 'filiale_id','file'], 'required'],
+            [['name', 'visual', 'filiale_id'], 'required'],
             [['filiale_id'], 'integer'],
             [['name'], 'string', 'max' => 55],
             [['file'],'file'],

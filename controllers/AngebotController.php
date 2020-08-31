@@ -107,11 +107,17 @@ class AngebotController extends Controller
 
     private function fileAndLinkAutomation($model){
         if($model->load(Yii::$app->request->post())){
+
             $previousFile =  $model->visual;
             $model->file = UploadedFile::getInstance($model, 'file');
-            $fileDirectory = 'angebotVisuals/'. $model->name . '_' . $model->file->baseName . '.' . $model->file->extension;
-            $model->file->saveAs($fileDirectory);
-            $model->visual = $fileDirectory;
+            if(!empty( $model->file)){
+                $fileDirectory = 'angebotVisuals/'. $model->name . '_' . $model->file->baseName . '.' . $model->file->extension;
+                $model->file->saveAs($fileDirectory);
+                $model->visual = '@web/'.$fileDirectory;
+            }else{
+                $model->visual = $this->randomLinkService->randomPlaceholderImage();
+            }
+
             if(!empty($previousFile)){
                 if($previousFile !== $fileDirectory){
                     unlink(Yii::$app->basePath . '/web/' . $previousFile);
@@ -121,8 +127,9 @@ class AngebotController extends Controller
                 $model->detail_link = $this->randomLinkService->randomUselessWebsite();
             }
             if(empty($model->kalender_woche)){
-                $model->detail_link = $this->calenderService->getCurrentCalenderWeek();
+                $model->kalender_woche = $this->calenderService->getCurrentCalenderWeek();
             }
+            $model->file = null;
             $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         }
@@ -138,7 +145,9 @@ class AngebotController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-        unlink(Yii::$app->basePath . '/web/' . $model->visual);
+        if(str_contains($model->visual,'angebotVisuals')){
+            unlink(Yii::$app->basePath . '/' .  substr($model->visual, 1));
+        }
         $model->delete();
 
         return $this->redirect(['index']);

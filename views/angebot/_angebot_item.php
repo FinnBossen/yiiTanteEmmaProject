@@ -12,7 +12,7 @@ use app\models\Filiale;
         <div  class="angebot_werbemittel" >
             <a href=<?= $model->detail_link ?>>
         <h1 class="angebot_title"><?= $model->name ?></h1>
-        <?= Html::img('@web/'.$model->visual, ['alt'=>'some', 'class'=>'angebot_visual']);?>
+        <?= Html::img($model->visual, ['alt'=>'some', 'class'=>'angebot_visual']);?>
             </a>
         </div>
     <div class="angebot_adminHandler">
