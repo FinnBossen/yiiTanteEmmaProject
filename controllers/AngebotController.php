@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\services\CalenderService;
 use app\services\RandomLinkService;
+use http\Exception;
 use Yii;
 use app\models\Angebot;
 use app\models\AngebotSearch;
@@ -114,23 +115,23 @@ class AngebotController extends Controller
                 $fileDirectory = 'angebotVisuals/'. $model->name . '_' . $model->file->baseName . '.' . $model->file->extension;
                 $model->file->saveAs($fileDirectory);
                 $model->visual = '@web/'.$fileDirectory;
+                if($previousFile !== $fileDirectory && !empty($previousFile)){
+                    if(str_contains($model->visual,'angebotVisuals')){
+                        unlink(Yii::$app->basePath . '/' .  substr($previousFile, 1));
+                    }
+                }
             }else{
                 $model->visual = $this->randomLinkService->randomPlaceholderImage();
             }
 
-            if(!empty($previousFile)){
-                if($previousFile !== $fileDirectory){
-                    unlink(Yii::$app->basePath . '/web/' . $previousFile);
-                }
-            }
             if(empty($model->detail_link)){
                 $model->detail_link = $this->randomLinkService->randomUselessWebsite();
             }
             if(empty($model->kalender_woche)){
                 $model->kalender_woche = $this->calenderService->getCurrentCalenderWeek();
             }
-            $model->file = null;
             $model->save();
+            $model->file = null;
             return $this->redirect(['view', 'id' => $model->id]);
         }
     }
@@ -146,7 +147,10 @@ class AngebotController extends Controller
     {
         $model = $this->findModel($id);
         if(str_contains($model->visual,'angebotVisuals')){
-            unlink(Yii::$app->basePath . '/' .  substr($model->visual, 1));
+            $fileName = Yii::$app->basePath . '/' . substr($model->visual, 1);
+            if(file_exists($fileName)){
+                unlink(Yii::$app->basePath . '/' . substr($model->visual, 1));
+            }
         }
         $model->delete();
 
