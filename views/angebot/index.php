@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use yii\widgets\ListView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\AngebotSearch */
@@ -14,27 +14,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
+    <?php if (!Yii::$app->user->isGuest) : ?>
     <p>
         <?= Html::a('Create Angebot', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+    <?php endif; ?>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <?= GridView::widget([
+    <?= \yii\widgets\ListView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'name',
-            'visual',
-            'kalender_woche',
-            'detail_link',
-            //'filiale_id',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
+        //'filterModel' => $searchModel,
+        'itemView' => '_angebot_item'
     ]); ?>
 
 

@@ -6,7 +6,7 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
-    'defaultRoute' => 'article/index',
+    'defaultRoute' => 'werbemittel/index',
     'name' => 'Tante Emma Werbemittel Admin',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -70,7 +70,7 @@ $config = [
 
                 'sylt' => '',
 
-                'wyk' => '',
+                'wykaufföhr' => '',
 
                 'husum' => '',
 

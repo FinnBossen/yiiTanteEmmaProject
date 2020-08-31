@@ -31,7 +31,7 @@ AppAsset::register($this);
     <?php
     NavBar::begin([
         'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
+        'brandUrl' => Yii::$app->homeUrl.'flensburg',
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
@@ -39,10 +39,9 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Home', 'url' => [Yii::$app->homeUrl]],
             (
                 '<li>'
-                . Html::beginForm($locationService->randomLocation(), 'post')
+                . Html::beginForm(YII::$app->homeUrl.$locationService->randomLocation(), 'post')
                 . Html::submitButton(
                     'RandomLocation',
                     ['class' => 'btn btn-link logout']
@@ -51,7 +50,6 @@ AppAsset::register($this);
                 . '</li>'
             ),
             ['label' => 'Werbemittel', 'url' => ['/site/about']],
-            ['label' => 'Angebote', 'url' => ['/angebot']],
             Yii::$app->user->isGuest? '':(['label' => 'Angebote', 'url' => ['/angebot']]),
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]

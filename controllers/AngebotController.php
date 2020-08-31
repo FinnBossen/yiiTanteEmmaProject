@@ -77,18 +77,7 @@ class AngebotController extends Controller
         $model = new Angebot();
 
 
-        if($model->load(Yii::$app->request->post())){
-
-            $model->file = UploadedFile::getInstance($model, 'file');
-            $fileDirectory = 'angebotVisuals/'. $model->name . '_' . $model->file->baseName . '.' . $model->file->extension;
-            $model->file->saveAs($fileDirectory);
-            $model->visual = $fileDirectory;
-            if(empty($model->detail_link)){
-                $model->detail_link = $this->randomLinkService->randomUselessWebsite();
-            }
-            $model->save();
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
+        $this->fileAndLinkAutomation($model);
 
         return $this->render('create', [
             'model' => $model,
@@ -104,15 +93,33 @@ class AngebotController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
+        $model = $this->findModel($id);
+        $this->fileAndLinkAutomation($model);
 
         return $this->render('update', [
             'model' => $model,
         ]);
+    }
+
+    private function fileAndLinkAutomation($model){
+        if($model->load(Yii::$app->request->post())){
+            $previousFile =  $model->visual;
+            $model->file = UploadedFile::getInstance($model, 'file');
+            $fileDirectory = 'angebotVisuals/'. $model->name . '_' . $model->file->baseName . '.' . $model->file->extension;
+            $model->file->saveAs($fileDirectory);
+            $model->visual = $fileDirectory;
+            if(!empty($previousFile)){
+                if($previousFile !== $fileDirectory){
+                    unlink(Yii::$app->basePath . '/web/' . $previousFile);
+                }
+            }
+            if(empty($model->detail_link)){
+                $model->detail_link = $this->randomLinkService->randomUselessWebsite();
+            }
+            $model->save();
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
     }
 
     /**
@@ -124,7 +131,9 @@ class AngebotController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        unlink(Yii::$app->basePath . '/web/' . $model->visual);
+        $model->delete();
 
         return $this->redirect(['index']);
     }
