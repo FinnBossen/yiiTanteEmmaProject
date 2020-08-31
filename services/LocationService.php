@@ -19,7 +19,7 @@ class LocationService
 
         'sylt',
 
-        'wyk',
+        'wykaufföhr',
 
         'husum',
 

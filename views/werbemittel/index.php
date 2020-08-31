@@ -1,5 +1,12 @@
 <?php
 /* @var $this yii\web\View */
+
+use yii\helpers\ArrayHelper;
+use app\models\Angebot;
+use app\models\Filiale;
+
+use app\services\CalenderService;
+
 ?>
 <h1>Werbemittel Preview</h1>
 <div class="slider-container">
@@ -12,63 +19,28 @@
         </li>
     </ul>
     <div class="my-slider">
-        <div class="slider-item">
-            <div class="card">
-                <img src="https://placeimg.com/200/150/any" alt="">
-                <h2>Title 1</h2>
-                <p class="card_description">Loresm ipsum dolor sit amet consectetur adipisicing elit. Dignissimos, voluptas!</p>
-            </div>
-        </div>
+        <?php
+        $calenderService = new CalenderService();
+        $id = Filiale::find()->where(['standort' => 'Flensburg'])->one()->id;
+        $array = Angebot::find()->where(['filiale_id' => $id])->where(['kalender_woche' =>$calenderService->getCurrentCalenderWeek()])->asArray()->all();
+        ?>
 
-        <div class="slider-item">
-            <div class="card">
-                <img src="https://placeimg.com/200/150/nature" alt="">
-                <h2>Title 2</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos, voluptas!</p>
+        <?php foreach($array as $model): ?>
+            <div  class="angebot_werbemittel" >
+                <a href=<?= $model->detail_link ?>>
+                    <h1 class="angebot_title"><?= $model->name ?></h1>
+                    <?= Html::img('@web/'.$model->visual, ['alt'=>'some', 'class'=>'angebot_visual']);?>
+                </a>
             </div>
-        </div>
-
-        <div class="slider-item">
-            <div class="card">
-                <img src="https://placeimg.com/200/150/nature/2" alt="">
-                <h2>Title 3</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos, voluptas!</p>
-            </div>
-        </div>
-        <div class="slider-item">
-            <div class="card">
-                <img src="https://placeimg.com/200/150/nature/3" alt="">
-                <h2>Title 4</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos, voluptas!</p>
-            </div>
-        </div>
+        <?php endforeach; ?>
     </div>
 </div>
 
-<script type="module">
-    import {tns} from 'tiny-slider';
+<script>
+    function getRoute(){
 
-    const slider = tns({
-        container: ".my-slider",
-        loop: true,
-        items: 1,
-        slideBy: "page",
-        nav: false,
-        autoplay: true,
-        speed: 400,
-        autoplayButtonOutput: false,
-        mouseDrag: true,
-        lazyload: true,
-        controlsContainer: "#customize-controls",
-        responsive: {
-            640: {
-                items: 2
-            },
+    }
+   function getDate(){
 
-            768: {
-                items: 3
-            }
-        }
-    });
-
+   }
 </script>

@@ -5,13 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-webpack": "webpack js/index.js dist/bundle.js"
+    "build-webpack": "webpack js/index.js dist/main.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "tiny-slider": "^2.9.3",
     "webpack": "^4.44.1",
-    "tiny-slider": "^2.9.3"
+    "webpack-cli": "^3.3.12"
   },
   "dependencies": {
     "dropzone": "^5.7.2",

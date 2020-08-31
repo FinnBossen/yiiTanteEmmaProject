@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\services\CalenderService;
 use app\services\RandomLinkService;
 use Yii;
 use app\models\Angebot;
@@ -17,11 +18,13 @@ use yii\web\UploadedFile;
 class AngebotController extends Controller
 {
     private $randomLinkService;
+    private $calenderService;
 
     public function __construct($id, $module, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->randomLinkService = new RandomLinkService();
+        $this->calenderService = new CalenderService();
     }
 
     /**
@@ -116,6 +119,9 @@ class AngebotController extends Controller
             }
             if(empty($model->detail_link)){
                 $model->detail_link = $this->randomLinkService->randomUselessWebsite();
+            }
+            if(empty($model->kalender_woche)){
+                $model->detail_link = $this->calenderService->getCurrentCalenderWeek();
             }
             $model->save();
             return $this->redirect(['view', 'id' => $model->id]);

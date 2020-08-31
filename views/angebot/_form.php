@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use app\models\Filiale;
+use app\services\CalenderService;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Angebot */
@@ -11,23 +12,7 @@ use app\models\Filiale;
 ?>
 
 <?php
-$calenderWeeks = array();
-
-function getCurrentCalenderWeek(){
-    return date('W');
-}
-function getCurrentWeeksInYear() {
-    $date = new DateTime;
-    $date->setISODate(date('Y'), 53);
-    return ($date->format('W') === '53' ? 53 : 52);
-}
-function compareCalenderWeeks($currentWeek){
-   // return $calenderWeeks[$currentWeek+1];
-}
-for ($i = 1; $i <= getCurrentWeeksInYear(); $i++) {
-    array_push($calenderWeeks, 'Klw_'.$i);
-}
-echo 'first week'. $calenderWeeks[0]. 'current week'. getCurrentCalenderWeek();
+$calenderService = new CalenderService();
 ?>
 
 <div class="angebot-form">
@@ -38,7 +23,7 @@ echo 'first week'. $calenderWeeks[0]. 'current week'. getCurrentCalenderWeek();
 
     <?= $form->field($model, 'file')->fileInput()  ?>
 
-    <?= $form->field($model, 'kalender_woche')->dropDownList($calenderWeeks,['prompt'=>'select calenderWeek'])?>
+    <?= $form->field($model, 'kalender_woche')->dropDownList($calenderService->calenderWeeks,['prompt'=>'select calenderWeek'])?>
 
     <?= $form->field($model, 'detail_link')->textInput(['maxlength' => true]) ?>
     <p>Wenn detail_link leer gelassen zufällige Webseite wird geladen</p>
