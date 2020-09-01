@@ -8,7 +8,7 @@ services:
         ports:
           - '8000:80'
     db:
-        image: mySQL
+        image: mysql
         restart: always
         volumes:
            - ./data/db:/var/lib/mysql
