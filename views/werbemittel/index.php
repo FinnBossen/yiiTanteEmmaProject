@@ -35,6 +35,9 @@ $locationService = new LocationService();
                 </a>
             </div>
         <?php endforeach; ?>
+        <?php if (empty($array)) : ?>
+            <h3 class="noData_information">No offers for current location and calenderWeek</h3>
+        <?php endif; ?>
     </div>
 </div>
 

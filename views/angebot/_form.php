@@ -23,7 +23,7 @@ $calenderService = new CalenderService();
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'file')->fileInput() ?>
-    <p class='creation_information'>When File is left bland placeholder will be generated </p>
+    <p class='creation_information'>When File is left blank placeholder will be generated </p>
 
     <?= $form->field($model, 'kalender_woche')->dropDownList($calenderService->calenderWeeks, ['prompt' => 'select calenderWeek']) ?>
     <p class='creation_information'>When Kalender Woche is left blank current Kalender Woche will be entered </p>

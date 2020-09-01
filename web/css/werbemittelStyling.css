@@ -68,3 +68,6 @@ table, th, td {
 .creation_information {
     color: green;
 }
+.noData_information {
+    color: red;
+}
