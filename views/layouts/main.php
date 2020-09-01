@@ -1,18 +1,24 @@
 <?php
 
-/* @var $this \yii\web\View */
+/* @var $this View */
+
 /* @var $content string */
 
+use app\assets\AppAsset;
+use app\services\LocationService;
 use app\widgets\Alert;
-use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
+use yii\helpers\Html;
+use yii\web\View;
 use yii\widgets\Breadcrumbs;
-use app\assets\AppAsset;
-use \app\services\LocationService;
-$locationService = new LocationService();
+
 AppAsset::register($this);
+
+// service Dependencies
+$locationService = new LocationService();
 ?>
+<!-- Main View for the navigation and so on -->
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
@@ -31,7 +37,7 @@ AppAsset::register($this);
     <?php
     NavBar::begin([
         'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl.'flensburg',
+        'brandUrl' => Yii::$app->homeUrl . 'flensburg',
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
@@ -41,7 +47,7 @@ AppAsset::register($this);
         'items' => [
             (
                 '<li>'
-                . Html::beginForm(YII::$app->homeUrl.$locationService->randomLocation(), 'post')
+                . Html::beginForm(YII::$app->homeUrl . $locationService->randomLocation(), 'post')
                 . Html::submitButton(
                     'RandomLocation',
                     ['class' => 'btn btn-link logout']
@@ -49,10 +55,9 @@ AppAsset::register($this);
                 . Html::endForm()
                 . '</li>'
             ),
-            ['label' => 'Werbemittel', 'url' => ['/site/about']],
-            Yii::$app->user->isGuest? '':(['label' => 'Angebote', 'url' => ['/angebot']]),
+            Yii::$app->user->isGuest ? '' : (['label' => 'Angebote', 'url' => ['/angebot']]),
             Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
+            ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
@@ -63,9 +68,9 @@ AppAsset::register($this);
                 . Html::endForm()
                 . '</li>'
             )
-             ,
-             Yii::$app->user->isGuest ? (
-                ['label' => 'Signup', 'url' => ['/site/signup']]
+            ,
+            Yii::$app->user->isGuest ? (
+            ['label' => 'Signup', 'url' => ['/site/signup']]
             ) : ''
         ],
     ]);

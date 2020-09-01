@@ -2,15 +2,14 @@
 
 namespace app\controllers;
 
-use app\services\CalenderService;
-use app\services\RandomLinkService;
-use http\Exception;
-use Yii;
 use app\models\Angebot;
 use app\models\AngebotSearch;
+use app\services\CalenderService;
+use app\services\RandomLinkService;
+use Yii;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 
 /**
@@ -72,6 +71,22 @@ class AngebotController extends Controller
     }
 
     /**
+     * Finds the Angebot model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return Angebot the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id)
+    {
+        if (($model = Angebot::findOne($id)) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    /**
      * Creates a new Angebot model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -86,6 +101,52 @@ class AngebotController extends Controller
         return $this->render('create', [
             'model' => $model,
         ]);
+    }
+
+    // automates value generation for some fields if they were left open from the user
+
+    private function fileAndLinkAutomation($model)
+    {
+        if ($model->load(Yii::$app->request->post())) {
+            $previousFile = $model->visual;
+            $model->file = UploadedFile::getInstance($model, 'file');
+            if (!empty($model->file)) {
+
+                // saves visual in directory angebotsVisuals under the web folder
+                $fileDirectory = 'angebotVisuals/' . $model->name . '_' . $model->file->baseName . '.' . $model->file->extension;
+                $model->file->saveAs($fileDirectory);
+                $model->visual = '@web/' . $fileDirectory;
+
+                //deletes previous file if user updates the visual with new one
+                if ($previousFile !== $fileDirectory && !empty($previousFile)) {
+                    if (str_contains($previousFile, 'angebotVisuals')) {
+                        unlink(Yii::$app->basePath . '/' . substr($previousFile, 1));
+                    }
+                }
+            } else {
+
+                //uses previous file if not a new one was assigned on update, else if field kept empty on creation
+                //placeholderImage will be assigned
+                if (!empty($previousFile)) {
+                    $model->visual = $previousFile;
+                } else {
+                    $model->visual = $this->randomLinkService->getPlaceholderImage();
+                }
+            }
+            // assigns currentCalenderWeek when the user had not assigned one himself
+            if (empty($model->kalender_woche)) {
+                $model->kalender_woche = $this->calenderService->getCurrentCalenderWeek();
+            }
+            // assigns randomUselessWebsite when the user had not assigned one himself
+            if (empty($model->detail_link)) {
+                $model->detail_link = $this->randomLinkService->randomUselessWebsite();
+            }
+
+            $model->file = null;
+            $model->save();
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+        return null;
     }
 
     /**
@@ -106,36 +167,6 @@ class AngebotController extends Controller
         ]);
     }
 
-    private function fileAndLinkAutomation($model){
-        if($model->load(Yii::$app->request->post())){
-
-            $previousFile =  $model->visual;
-            $model->file = UploadedFile::getInstance($model, 'file');
-            if(!empty( $model->file)){
-                $fileDirectory = 'angebotVisuals/'. $model->name . '_' . $model->file->baseName . '.' . $model->file->extension;
-                $model->file->saveAs($fileDirectory);
-                $model->visual = '@web/'.$fileDirectory;
-                if($previousFile !== $fileDirectory && !empty($previousFile)){
-                    if(str_contains($model->visual,'angebotVisuals')){
-                        unlink(Yii::$app->basePath . '/' .  substr($previousFile, 1));
-                    }
-                }
-            }else{
-                $model->visual = $this->randomLinkService->randomPlaceholderImage();
-            }
-
-            if(empty($model->detail_link)){
-                $model->detail_link = $this->randomLinkService->randomUselessWebsite();
-            }
-            if(empty($model->kalender_woche)){
-                $model->kalender_woche = $this->calenderService->getCurrentCalenderWeek();
-            }
-            $model->save();
-            $model->file = null;
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-    }
-
     /**
      * Deletes an existing Angebot model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -146,30 +177,15 @@ class AngebotController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-        if(str_contains($model->visual,'angebotVisuals')){
+        // deletes visual file on deletion of the model, if the file even exists
+        if (str_contains($model->visual, 'angebotVisuals')) {
             $fileName = Yii::$app->basePath . '/' . substr($model->visual, 1);
-            if(file_exists($fileName)){
+            if (file_exists($fileName)) {
                 unlink(Yii::$app->basePath . '/' . substr($model->visual, 1));
             }
         }
         $model->delete();
 
         return $this->redirect(['index']);
-    }
-
-    /**
-     * Finds the Angebot model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Angebot the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = Angebot::findOne($id)) !== null) {
-            return $model;
-        }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
     }
 }

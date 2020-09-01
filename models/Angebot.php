@@ -2,7 +2,8 @@
 
 namespace app\models;
 
-use Yii;
+use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "angebot".
@@ -16,7 +17,7 @@ use Yii;
  *
  * @property Filiale $filiale
  */
-class Angebot extends \yii\db\ActiveRecord
+class Angebot extends ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -34,13 +35,14 @@ class Angebot extends \yii\db\ActiveRecord
     public function rules()
     {
         // kalender_woche ,detail_link, file not required here because when user leaves it open, it will be replaced
-        // with automatic values in the controller
+        // with automatic values from the controller
         return [
             [['name', 'visual', 'filiale_id'], 'required'],
             [['filiale_id'], 'integer'],
             [['name'], 'string', 'max' => 55],
-            [['file'],'file'],
-            [['visual', 'kalender_woche', 'detail_link'], 'string', 'max' => 255],
+            [['file'], 'file'],
+            [['kalender_woche'], 'integer'],
+            [['visual', 'detail_link'], 'string', 'max' => 255],
             [['filiale_id'], 'exist', 'skipOnError' => true, 'targetClass' => Filiale::class, 'targetAttribute' => ['filiale_id' => 'id']],
         ];
     }
@@ -63,7 +65,7 @@ class Angebot extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Filiale]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getFiliale()
     {

@@ -1,3 +1,6 @@
+/* styling for the sites login and logout */
+/* Is imported to the YiiProject with the AppAsset.php */
+
 html,
 body {
     height: 100%;
@@ -96,9 +99,9 @@ a.desc:after {
     border: none;
 }
 
-@media(max-width:767px) {
+@media (max-width: 767px) {
     .nav li > form > button.logout {
-        display:block;
+        display: block;
         text-align: left;
         width: 100%;
         padding: 10px 15px;

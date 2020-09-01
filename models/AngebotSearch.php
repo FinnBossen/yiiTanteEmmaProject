@@ -4,7 +4,6 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Angebot;
 
 /**
  * AngebotSearch represents the model behind the search form of `app\models\Angebot`.
@@ -42,8 +41,6 @@ class AngebotSearch extends Angebot
     {
         $query = Angebot::find();
 
-        // add conditions that should always apply here
-
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -51,12 +48,9 @@ class AngebotSearch extends Angebot
         $this->load($params);
 
         if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
             return $dataProvider;
         }
 
-        // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
             'filiale_id' => $this->filiale_id,

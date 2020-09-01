@@ -2,7 +2,8 @@
 
 namespace app\models;
 
-use Yii;
+use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "filiale".
@@ -13,7 +14,7 @@ use Yii;
  *
  * @property Angebot[] $angebots
  */
-class Filiale extends \yii\db\ActiveRecord
+class Filiale extends ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -48,11 +49,11 @@ class Filiale extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Angebots]].
+     * Gets query for [[Angebote]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
-    public function getAngebots()
+    public function getAngebote()
     {
         return $this->hasMany(Angebot::class, ['filiale_id' => 'id']);
     }

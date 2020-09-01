@@ -1,9 +1,13 @@
-.slider-container{
+/* styling for the Werbemittel Slider*/
+/* Is imported to the YiiProject with the AppAsset.php */
+
+.slider-container {
     position: relative;
     height: 250px;
     width: 300px;
 }
-.angebot_werbemittel{
+
+.angebot_werbemittel {
     float: left;
     position: relative;
     height: 250px;
@@ -11,44 +15,56 @@
     background: black;
     overflow: hidden;
 }
-.angebot_title{
+
+.angebot_title {
     width: 100%;
     height: 50px;
     color: white;
     /* Center vertically */
     position: absolute;
-    left: 10%;
+    padding-left: 10%;
     top: 50%;
     z-index: 1000;
+    padding-right: 10%;
 }
-.angebot_visual{
+
+.angebot_visual {
     position: relative;
     height: 100%;
 }
-.angebot_AdminWrapper{
+
+.angebot_AdminWrapper {
     position: relative;
     height: 260px;
 }
 
-.angebot_adminActions{
+.angebot_adminActions {
     margin-top: 10px;
     margin-left: 10px;
 }
 
-.angebot_adminHandler{
+.angebot_adminHandler {
     float: left;
 }
-.angebot_adminDetails{
+
+.angebot_adminDetails {
     margin-left: 10px;
 }
-.angebot_adminDetailsTitel{
+
+.angebot_adminDetailsTitel {
     margin-left: 10px;
 }
+
 table, th, td {
     border: 1px solid black;
 }
-.newLineWerbemittelAdmin{
+
+.newLineWerbemittelAdmin {
     clear: both;
-    display: block; position: relative;
+    display: block;
+    position: relative;
     float: left;
+}
+.creation_information {
+    color: green;
 }
