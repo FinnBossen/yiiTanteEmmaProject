@@ -1,12 +1,15 @@
 version: "3"
 services:
-    php:
-        image: yiisoftware/yii2-php:7.1-apache
+    web:
+        image: sreine/yii2-apcu
+        restart: always
         volumes:
-          - ~/.composer-docker/cache:/root/.composer/cache:delegated
-          - ./:/app:delegated
+           - ./yii:/app
+           - ./data/conf:/etc/apache2/sites-available
+           - ./data/logs:/var/log/apache2
         ports:
-          - '8000:80'
+           - "80:80"
+           - "443:443"
     db:
         image: mysql
         restart: always
