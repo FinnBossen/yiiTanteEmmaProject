@@ -2,10 +2,10 @@
 
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=tanteemmadb',
+    'dsn' => 'mysql:host=db:3306;dbname=tanteemmadb',
     'username' => 'root',
-    'password' => 'Alienkiller_1',
-    'charset' => 'utf8',
+    'password' => 'rootMySQL',
+    'charset' => 'utf8'
 
     // Schema cache options (for production environment)
     //'enableSchemaCache' => true,

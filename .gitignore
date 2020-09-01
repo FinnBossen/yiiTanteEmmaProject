@@ -1,6 +1,5 @@
-protected/runtime/*
-!protected/runtime/.gitignore
-protected/data/*.db
-themes/classic/views/
+.env
+*.swp
+_host-volumes
 
-
+\.idea/
